@@ -1,0 +1,35 @@
+#divMainInput {
+    padding: 20px;
+    margin: 20px;
+    border: 1px solid #1ED760;
+    display: flex;
+    min-height: 70vh;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+
+#divMainWords {
+    margin-bottom: 5px;
+    padding: 50px;
+    border-radius: inherit;
+    font-family: monospace;
+}
+
+#divMainInput > input {
+    padding: 10px;
+    width: 35%;
+    background-color: #282c34;
+    color: #ffffff;
+    outline: none;
+    box-shadow: none;
+    border: 1px solid #ffffff;
+    border-radius: inherit;
+    transition: 0.2s;
+}
+
+#divMainInput > input:hover {
+    border: 1px solid #1ED760;
+    padding: 15px;
+}

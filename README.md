@@ -1,3 +1,13 @@
+### Typing Speed Test
+
+This is a project that I've been wanting to create for a while. It's a typing test made with React + TypeScript.
+
+The project is on-going and will be deployed in the near future, so if you stumbled upon it and got interested, stay tuned.
+
+You can make fork and make pull requests to this project as well, so feel free to do so!
+
+### Create React App
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

@@ -1,0 +1,22 @@
+footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    min-height: 15vh;
+    font-family: monospace;
+}
+
+footer img {
+    width: 30px;
+}
+
+footer a {
+    display: inherit;
+    justify-content: inherit;
+    align-items: inherit;
+}
+
+a:visited {
+    color: #fff;
+}
