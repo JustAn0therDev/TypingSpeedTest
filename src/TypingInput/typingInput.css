@@ -19,7 +19,7 @@
 }
 
 #divMainInput > input {
-    padding: 10px;
+    padding: 15px;
     width: 35%;
     background-color: #282c34;
     color: #ffffff;
@@ -32,7 +32,6 @@
 
 #divMainInput > input:hover {
     border: 1px solid #1ED760;
-    padding: 15px;
 }
 
 #divResults {

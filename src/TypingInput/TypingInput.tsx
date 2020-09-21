@@ -2,7 +2,6 @@ import React from 'react';
 import './TypingInput.css'
 
 const TypingInput = () => {
-
     // This will be dynamically generated
     // And randomly sorted
     const wordArray = ["this", "was", "vacation", "i", "wont", "keep", "you", "waiting"];
@@ -53,7 +52,6 @@ const TypingInput = () => {
                 </div>
                 <input 
                     type="text" 
-                    placeholder="Start typing here!"
                     autoComplete="off"
                     onKeyPress={(evt) => { handleKeyPress(evt); }}
                  />

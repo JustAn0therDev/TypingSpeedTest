@@ -5,13 +5,11 @@ import './Footer.css';
 
 const Footer = () => {
     return (
-        <>
-            <footer>
-                <a href="https://github.com/JustAn0therDev" 
-                target="_blank" 
-                rel="noopener noreferrer">GitHub:&nbsp;<img src={GitHubLogo} alt="Github Logo"></img></a>
-            </footer>
-        </>
+        <footer>
+            <a href="https://github.com/JustAn0therDev" 
+            target="_blank" 
+            rel="noopener noreferrer">GitHub:&nbsp;<img src={GitHubLogo} alt="Github Logo"></img></a>
+        </footer>
     )
 }
 
