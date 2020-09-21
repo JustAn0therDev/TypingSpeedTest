@@ -11,9 +11,10 @@
 }
 
 #divMainWords {
-    margin-bottom: 5px;
+    margin: 15px;
     padding: 50px;
     border-radius: inherit;
+    border: 1px solid #189143;
     font-family: monospace;
 }
 
@@ -32,4 +33,14 @@
 #divMainInput > input:hover {
     border: 1px solid #1ED760;
     padding: 15px;
+}
+
+#divResults {
+    display: inherit;
+    padding-top: 80px;
+}
+
+#divResults h1 {
+    font-family: monospace;
+    font-size: 50px;
 }

@@ -7,8 +7,8 @@
 }
 
 body {
+  font-family: monospace;
   outline: none;
-  font-family: Circular, Helvetica, Arial, sans-serif, IosFix;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #282c34;
