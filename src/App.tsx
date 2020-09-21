@@ -7,8 +7,7 @@ const App = () => {
   return (
     <div className="App">
       <header className="App-header">
-        <h3>Typing Speed Test</h3>
-        <h5>Type as the words appear.</h5>
+        <h3>Typing Test</h3>
       </header>
 
       <main>
