@@ -48,7 +48,7 @@ const TypingInput = () => {
         <>
             <div id="divMainInput">
                 <div id="divMainWords">
-                    {wordArray.map((word, index) => ( <span id={`${word}${index}`} key={index}>{word}&nbsp;</span>))}
+                    {wordArray.map((word, index) => (<span id={`${word}${index}`} key={index}>{word}&nbsp;</span>))}
                 </div>
                 <input 
                     type="text" 

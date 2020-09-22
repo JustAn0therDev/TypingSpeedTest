@@ -1,4 +1,3 @@
-import { relative } from 'path';
 import React from 'react';
 import GitHubLogo from './github.svg';
 import './Footer.css';
