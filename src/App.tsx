@@ -4,7 +4,6 @@ import TypingInput from './TypingInput/TypingInput';
 import Footer from './Footer/Footer';
 import triggerHeaderAnimation from './utils/triggerHeaderAnimation';
 
-
 const App = () => {
   triggerHeaderAnimation();
 

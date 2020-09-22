@@ -1,13 +1,21 @@
-import React from 'react';
-import './TypingInput.css'
+import React, { useState, useEffect } from 'react';
+import getSpecifiedNumberOfRandomWords from '../utils/getSpecifiedNumberOfRandomWords';
+import './TypingInput.css';
+
 
 const TypingInput = () => {
-    // This will be dynamically generated
-    // And randomly sorted
-    const wordArray = ["this", "was", "vacation", "i", "wont", "keep", "you", "waiting"];
+    let [wordArray, setWordArray] = useState(new Array<string>());
 
     let wordArrayIndex = 0;
     let calculatedWordsPerMinute = 0;
+
+    useEffect(() => {
+        setWordArray(getSpecifiedNumberOfRandomWords(25));
+    }, []);
+
+    function handleClick() {
+        setWordArray(getSpecifiedNumberOfRandomWords(25));
+    }
 
     function handleKeyPress(event: React.KeyboardEvent): void {
         if (spaceKeyWasPressed(event.key)) {
@@ -50,11 +58,14 @@ const TypingInput = () => {
                 <div id="divMainWords">
                     {wordArray.map((word, index) => (<span id={`${word}${index}`} key={index}>{word}&nbsp;</span>))}
                 </div>
-                <input 
-                    type="text" 
-                    autoComplete="off"
-                    onKeyPress={(evt) => { handleKeyPress(evt); }}
-                 />
+                <div id="divWithInputAndButton">
+                    <input 
+                        type="text" 
+                        autoComplete="off"
+                        onKeyPress={(evt) => { handleKeyPress(evt); }}
+                    />
+                    <button type="button" onClick={handleClick}>Reset</button>
+                </div>
                 <div id="divResults">
                     <h1>{calculatedWordsPerMinute} WPM</h1>
                 </div>

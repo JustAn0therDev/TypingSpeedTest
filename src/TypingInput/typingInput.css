@@ -11,6 +11,8 @@
 }
 
 #divMainWords {
+    display: flex;
+    flex-direction: row;
     margin: 15px;
     padding: 50px;
     border-radius: inherit;
@@ -18,9 +20,28 @@
     font-family: monospace;
 }
 
-#divMainInput > input {
+#divResults {
+    display: inherit;
+    padding-top: 80px;
+}
+
+#divResults h1 {
+    font-size: 50px;
+}
+
+#divWithInputAndButton {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    border-radius: inherit;
+}
+
+#divWithInputAndButton input {
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: center;
     padding: 15px;
-    width: 35%;
+    width: 70%;
     background-color: #282c34;
     color: #ffffff;
     outline: none;
@@ -30,16 +51,28 @@
     transition: 0.2s;
 }
 
-#divMainInput > input:hover {
+#divWithInputAndButton input:hover {
     border: 1px solid #1ED760;
 }
 
-#divResults {
-    display: inherit;
-    padding-top: 80px;
+#divWithInputAndButton button {
+    color: #000;
+    background-color: #1ED760;
+    font-family: monospace;
+    width: 10vw;
+    outline: none;
+    border: inherit;
+    padding: 10px;
+    margin-left: 5px;
+    border-radius: inherit;
+    transition: 0.4s;
 }
 
-#divResults h1 {
-    font-family: monospace;
-    font-size: 50px;
+#divWithInputAndButton button:hover {
+    background-color: #189143;
+}
+
+#divWithInputAndButton > button:active {
+    transition: none;
+    color: #fff;
 }
