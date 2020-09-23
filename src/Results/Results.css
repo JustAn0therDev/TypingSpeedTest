@@ -1,0 +1,8 @@
+#divResults {
+    display: inherit;
+    padding-top: 80px;
+}
+
+#divResults h1 {
+    font-size: 50px;
+}

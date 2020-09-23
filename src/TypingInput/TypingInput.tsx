@@ -1,31 +1,42 @@
 import React, { useState, useEffect } from 'react';
+import Results from '../Results/Results';
 import getSpecifiedNumberOfRandomWords from '../utils/getSpecifiedNumberOfRandomWords';
 import './TypingInput.css';
 
-
 const TypingInput = () => {
-    let [wordArray, setWordArray] = useState(new Array<string>());
+    const arraySize = 25;
 
-    let wordArrayIndex = 0;
-    let calculatedWordsPerMinute = 0;
+    let [wordArray, setWordArray] = useState(new Array<string>());
+    let [wordArrayIndex, setWordArrayIndex] = useState(0);
+    let [wordsPerMinute, setWordsPerMinute] = useState(0);
 
     useEffect(() => {
-        setWordArray(getSpecifiedNumberOfRandomWords(25));
+        setWordArray(getSpecifiedNumberOfRandomWords(arraySize));
     }, []);
-
-    function handleClick() {
-        setWordArray(getSpecifiedNumberOfRandomWords(25));
-    }
 
     function handleKeyPress(event: React.KeyboardEvent): void {
         if (spaceKeyWasPressed(event.key)) {
             checkInputValue(event.currentTarget.value.trim());
-            thenClearInput(event.currentTarget);
+            checkIfAtEndOfArray();
+            clearInputs(event);
         }
     }
 
+    function checkIfAtEndOfArray() {
+        if (wordArrayIndex === wordArray.length - 1) {
+            resetComponentState();
+        }
+    }
+
+    function resetComponentState() {
+        setWordArray(getSpecifiedNumberOfRandomWords(arraySize));
+        setWordArrayIndex(0);
+        Array.from(document.getElementsByTagName('span')).forEach(span => span.style.color = '#ffffff');
+        clearInputs(null);
+    }
+
     function spaceKeyWasPressed(pressedKey: string): boolean {
-        return pressedKey === " ";
+        return pressedKey === ' ';
     }
 
     function checkInputValue(insertedWord: string | null): void {
@@ -41,15 +52,19 @@ const TypingInput = () => {
         if (currentSpanElement)
             markWordElementAsTyped(currentSpanElement, colorToPutOnSpanElement);
 
-        wordArrayIndex++;
+        setWordArrayIndex(wordArrayIndex + 1);
     }
 
     function markWordElementAsTyped(wordElement: HTMLElement, color: string): void {
         wordElement.style.color = color;
     }
     
-    function thenClearInput(inputElement: EventTarget & Element): void {
-        inputElement.value = '';        
+    function clearInputs(evt: React.KeyboardEvent | null): void {
+        if (evt) {
+            evt.currentTarget.value = '';
+        } else {
+            Array.from(document.getElementsByTagName('input')).forEach(input => input.value = '');
+        }
     }
 
     return (
@@ -64,11 +79,9 @@ const TypingInput = () => {
                         autoComplete="off"
                         onKeyPress={(evt) => { handleKeyPress(evt); }}
                     />
-                    <button type="button" onClick={handleClick}>Reset</button>
+                    <button type="button" onClick={resetComponentState}>Go again</button>
                 </div>
-                <div id="divResults">
-                    <h1>{calculatedWordsPerMinute} WPM</h1>
-                </div>
+                <Results currentNumberOfWordsPerMinute={wordsPerMinute} />
             </div>
         </>
     )
