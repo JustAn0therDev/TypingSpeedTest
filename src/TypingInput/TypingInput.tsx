@@ -28,9 +28,7 @@ const TypingInput: React.FC = () => {
     function handleKeyPress(event: React.KeyboardEvent): void {
         if (event.key === ' ') {
             checkInputValue(event.currentTarget.value.trim());
-            if (referenceToInputElement && referenceToInputElement.current) {
-                referenceToInputElement.current.value = '';
-            }
+            clearInputElementRefValue(referenceToInputElement);
             updateWordsPerMinute();
         }
     }
@@ -55,7 +53,13 @@ const TypingInput: React.FC = () => {
         Array.from(document.getElementsByTagName('span'))
         .forEach(span => span.style.color = '#ffffff');
 
+        clearInputElementRefValue(referenceToInputElement);
         referenceToInputElement.current?.focus();
+    }
+
+    function clearInputElementRefValue(referenceToElement: React.RefObject<HTMLInputElement | null>): void {
+        if (referenceToElement && referenceToElement.current)
+            referenceToElement.current.value = '';
     }
 
     function checkInputValue(insertedWord: string | null): void {

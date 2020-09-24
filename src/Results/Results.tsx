@@ -2,7 +2,7 @@ import './Results.css';
 import IResults from '../Interfaces/IResults';
 import React, { useEffect, useState } from 'react';
 
-const Results = (props: IResults) => {
+const Results = (props: IResults): JSX.Element => {
     let [wordsPerMinute, setWordsPerMinute] = useState(0);
 
     useEffect(() => {
