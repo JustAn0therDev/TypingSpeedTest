@@ -1,7 +1,7 @@
-import React from 'react';
 import './App.css';
-import TypingInput from './TypingInput/TypingInput';
+import React from 'react';
 import Footer from './Footer/Footer';
+import TypingInput from './TypingInput/TypingInput';
 import triggerHeaderAnimation from './utils/triggerHeaderAnimation';
 
 const App = () => {

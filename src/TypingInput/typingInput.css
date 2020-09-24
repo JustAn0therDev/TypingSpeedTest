@@ -1,7 +1,6 @@
 #divMainInput {
     padding: 20px;
     margin: 20px;
-    border: 1px solid #1ED760;
     display: flex;
     min-height: 70vh;
     flex-direction: column;
@@ -10,14 +9,38 @@
     border-radius: 10px;
 }
 
+#divMainInput button {
+    color: #000;
+    background-color: #1ED760;
+    font-family: monospace;
+    font-size: 1.2em;
+    width: 10vw;
+    outline: none;
+    border: inherit;
+    padding: 15px;
+    margin: 10px;
+    border-radius: inherit;
+    transition: 0.4s;
+}
+
+#divMainInput button:hover {
+    background-color: #189143;
+}
+
+#divMainInput > button:active {
+    padding: 14px;
+    transition: none;
+    color: #fff;
+}
+
 #divMainWords {
-    display: flex;
-    flex-direction: row;
     margin: 15px;
     padding: 50px;
+    width: inherit;
     border-radius: inherit;
     border: 1px solid #189143;
     font-family: monospace;
+    font-size: 1.1em;
 }
 
 #divWithInputAndButton {
@@ -32,7 +55,7 @@
     flex-direction: row;
     justify-content: center;
     padding: 15px;
-    width: 70%;
+    width: 20em;
     background-color: #282c34;
     color: #ffffff;
     outline: none;
@@ -44,26 +67,4 @@
 
 #divWithInputAndButton input:hover {
     border: 1px solid #1ED760;
-}
-
-#divWithInputAndButton button {
-    color: #000;
-    background-color: #1ED760;
-    font-family: monospace;
-    width: 10vw;
-    outline: none;
-    border: inherit;
-    padding: 10px;
-    margin-left: 5px;
-    border-radius: inherit;
-    transition: 0.4s;
-}
-
-#divWithInputAndButton button:hover {
-    background-color: #189143;
-}
-
-#divWithInputAndButton > button:active {
-    transition: none;
-    color: #fff;
 }
