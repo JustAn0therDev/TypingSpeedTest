@@ -1,7 +1,13 @@
 ### Typing Speed Test
 
-Typing Speed test is a website made with simple usability and performance in mind, where you can **_quickly practice_** your typing speed.
+Typing Speed test is a website made with simple usability and good performance in mind using React and TypeScript, where you can [**_quickly practice_** your typing speed](https://justan0therdev.github.io/TypingSpeedTest/).
 
-The project is still on-going and will be deployed in the near future, so if you stumbled upon it and got interested, stay tuned.
+Just keep it somewhere where its easily accessible, quickly open it up and practice a bit.
 
-**This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).**
+## Usability
+- If you're not familiar with website like this, just type away and the words will be matched when the space key is pressed.
+- Pressing the `Escape` key on your keyboard resets your progress.
+
+This project is still on-going, so feel free to give it a star, fork it, make pull requests, open up issues and such!
+
+_Heavily inspired by [typings.gg](https://typings.gg). Check it out if you want to!_
