@@ -1,13 +1,10 @@
 /// <reference types="cypress" />
 
-context('TypingInput component', () => {
-
-    //The URL will be an environment variable
-    it('URL exists', () => {
-        cy.visit('http://localhost:3000/');
-    });
+context('Main tests', () => {
 
     it('Header exists', () => {
+        cy.visit("http://localhost:3000/");
+
         cy.get('header').should('exist');
         cy.get('header').should('be.visible');
     })
@@ -35,5 +32,11 @@ context('TypingInput component', () => {
     it('Results div should have "0 WPM"', () => {
         cy.get('#divResults').should('have.text', '0 WPM');
         cy.get('#divResults').should('be.visible');
+    });
+
+    it('Clicking the Reset button should reset component state', () => {
+        cy.get('input[type="text"]').type('test');
+        cy.get('button').click();
+        cy.get('input[type="text"]').should('have.value', '');
     })
 });
