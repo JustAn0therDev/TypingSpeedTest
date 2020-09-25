@@ -23,6 +23,7 @@ const TypingInput: React.FC = () => {
     useEffect(() => {
         setWordArray(getSpecifiedNumberOfRandomWords(wordArraySize));
         setWordsPerMinute(0);
+        referenceToInputElement.current?.focus();
     }, []);
 
     function handleKeyPress(event: React.KeyboardEvent): void {
@@ -85,7 +86,7 @@ const TypingInput: React.FC = () => {
     return (
         <>
             <div id="divMainInput">
-                <button type="button" tabIndex={0} onClick={resetComponentState}>Reset</button>
+                <button type="button" tabIndex={2} onClick={resetComponentState}>Reset (Esc)</button>
                 <div id="divMainWords">
                     { wordArray.map((word, index) => 
                         ( <span id={`${word}${index}`} key={index}>{word}&nbsp;</span>

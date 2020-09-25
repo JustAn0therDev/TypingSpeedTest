@@ -6,5 +6,5 @@ export default function triggerHeaderAnimation(): void {
             ? headerPipe.style.display = "none" 
             : headerPipe.style.display = "inline";
         }
-    }, 1000);
+    }, 600);
 }
