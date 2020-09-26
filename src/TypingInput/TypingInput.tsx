@@ -7,11 +7,10 @@ import getSpecifiedNumberOfRandomWords from '../utils/getSpecifiedNumberOfRandom
 const typingInputInitialState: ITypingInputInitialState = {
     wordArrayIndex: 0,
     wordsPerMinute: 0,
-    startDateInMilisseconds: 0,
-    referenceToInputElement: null
+    startDateInMilisseconds: 0
 }
 
-const TypingInput: React.FC = () => {
+export default function TypingInput(): JSX.Element {
     const wordArraySize = 20;
     const referenceToInputElement = useRef<HTMLInputElement>(null);
 
@@ -29,7 +28,7 @@ const TypingInput: React.FC = () => {
     function handleKeyPress(event: React.KeyboardEvent): void {
         if (event.key === ' ') {
             checkInputValue(event.currentTarget.value.trim());
-            clearInputElementRefValue(referenceToInputElement);
+            clearRefElementValue(referenceToInputElement);
             updateWordsPerMinute();
         }
     }
@@ -51,14 +50,13 @@ const TypingInput: React.FC = () => {
         setWordArrayIndex(typingInputInitialState.wordArrayIndex);
         setWordsPerMinute(typingInputInitialState.wordsPerMinute);
 
-        Array.from(document.getElementsByTagName('span'))
-        .forEach(span => span.style.color = '#ffffff');
+        Array.from(document.getElementsByTagName('span')).forEach(span => span.style.color = '#ffffff');
 
-        clearInputElementRefValue(referenceToInputElement);
+        clearRefElementValue(referenceToInputElement);
         referenceToInputElement.current?.focus();
     }
 
-    function clearInputElementRefValue(referenceToElement: React.RefObject<HTMLInputElement | null>): void {
+    function clearRefElementValue(referenceToElement: React.RefObject<HTMLInputElement | null>): void {
         if (referenceToElement && referenceToElement.current)
             referenceToElement.current.value = '';
     }
@@ -88,10 +86,7 @@ const TypingInput: React.FC = () => {
             <div id="divMainInput">
                 <button type="button" tabIndex={2} onClick={resetComponentState}>Reset (Esc)</button>
                 <div id="divMainWords">
-                    { wordArray.map((word, index) => 
-                        ( <span id={`${word}${index}`} key={index}>{word}&nbsp;</span>
-                        )) 
-                    }
+                    {wordArray.map((word, index) => (<span id={`${word}${index}`} key={index}>{word}&nbsp;</span>))}
                 </div>
                 <div id="divWithInputAndButton">
                     <input 
@@ -106,5 +101,3 @@ const TypingInput: React.FC = () => {
         </>
     )
 }
-
-export default TypingInput;

@@ -5,7 +5,7 @@ import TypingInput from './TypingInput/TypingInput';
 import triggerHeaderAnimation from './utils/triggerHeaderAnimation';
 import addEscEventListenerToWindow from './utils/addEscEventListenerToWindow';
 
-const App = () => {
+export default function App() {
   triggerHeaderAnimation();
   addEscEventListenerToWindow();
 
@@ -23,5 +23,3 @@ const App = () => {
     </div>
   );
 }
-
-export default App;

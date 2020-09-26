@@ -12,10 +12,8 @@
 #divMainInput button {
     color: #000;
     background-color: #1ED760;
-    font-family: monospace;
     font-size: 1.2em;
     width: 10vw;
-    outline: none;
     border: inherit;
     padding: 15px;
     margin: 10px;
@@ -38,7 +36,6 @@
     padding: 50px;
     width: inherit;
     border-radius: inherit;
-    font-family: monospace;
     font-size: 1.4em;
 }
 
@@ -57,7 +54,6 @@
     width: 20em;
     background-color: #282c34;
     color: #ffffff;
-    outline: none;
     box-shadow: none;
     border: 1px solid #ffffff;
     border-radius: inherit;

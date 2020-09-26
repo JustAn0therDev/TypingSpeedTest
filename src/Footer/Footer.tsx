@@ -2,7 +2,7 @@ import React from 'react';
 import GitHubLogo from './github.svg';
 import './Footer.css';
 
-const Footer: React.FC = () => {
+export default function Footer(): JSX.Element {
     return (
         <footer>
             <a href="https://github.com/JustAn0therDev/TypingSpeedTest" 
@@ -11,5 +11,3 @@ const Footer: React.FC = () => {
         </footer>
     )
 }
-
-export default Footer;
