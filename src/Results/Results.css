@@ -1,8 +1,14 @@
 #divResults {
     display: inherit;
-    padding-top: 80px;
+    padding-top: 50px;
 }
 
 #divResults h1 {
-    font-size: 50px;
+    font-size: 2.5em;
+}
+
+@media (min-width: 767px) {
+    #divResults h1 {
+        font-size: 5em;
+    }   
 }

@@ -13,12 +13,12 @@
     color: #000;
     background-color: #1ED760;
     font-size: 1.2em;
-    width: 10vw;
+    width: 9em;
     border: inherit;
     padding: 15px;
     margin: 10px;
     border-radius: inherit;
-    transition: 0.4s;
+    transition: 0.5s;
 }
 
 #divMainInput button:hover {
@@ -28,25 +28,40 @@
 #divMainInput > button:active {
     padding: 14px;
     transition: none;
-    color: #fff;
+    -moz-box-shadow:    inset 0 0 5px #000000;
+    -webkit-box-shadow: inset 0 0 5px #000000;
+    box-shadow:         inset 0 0 5px #000000;
 }
 
 #divMainWords {
+    display: flex;
+    flex-direction: column;
     margin: 15px;
-    padding: 50px;
+    padding: 30px;
     width: inherit;
     border-radius: inherit;
     font-size: 1.4em;
 }
 
-#divWithInputAndButton {
+@media (min-width: 767px) {
+    #divMainWords {
+        flex-direction: row;
+    }
+}
+
+#divWithLabelAndInput {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     border-radius: inherit;
 }
 
-#divWithInputAndButton input {
+#divWithLabelAndInput label {
+    padding-bottom: 12px;
+    font-size: 1.2em;
+}
+
+#divWithLabelAndInput input {
     display: inline-flex;
     flex-direction: row;
     justify-content: center;
@@ -60,6 +75,6 @@
     transition: 0.2s;
 }
 
-#divWithInputAndButton input:hover {
+#divWithLabelAndInput input:hover {
     border: 1px solid #1ED760;
 }

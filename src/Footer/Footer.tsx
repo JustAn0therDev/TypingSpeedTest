@@ -1,6 +1,6 @@
+import './Footer.css';
 import React from 'react';
 import GitHubLogo from './github.svg';
-import './Footer.css';
 
 export default function Footer(): JSX.Element {
     return (

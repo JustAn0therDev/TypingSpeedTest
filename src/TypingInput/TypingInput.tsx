@@ -11,7 +11,7 @@ const typingInputInitialState: ITypingInputInitialState = {
 }
 
 export default function TypingInput(): JSX.Element {
-    const wordArraySize = 20;
+    const wordArraySize = 15;
     const referenceToInputElement = useRef<HTMLInputElement>(null);
 
     let [wordArray, setWordArray] = useState(new Array<string>());
@@ -84,13 +84,14 @@ export default function TypingInput(): JSX.Element {
     return (
         <>
             <div id="divMainInput">
-                <button type="button" tabIndex={2} onClick={resetComponentState}>Reset (Esc)</button>
+                <button type="button" onClick={resetComponentState}>Reset (Esc)</button>
                 <div id="divMainWords">
                     {wordArray.map((word, index) => (<span id={`${word}${index}`} key={index}>{word}&nbsp;</span>))}
                 </div>
-                <div id="divWithInputAndButton">
-                    <input 
-                        id="mainInput" tabIndex={1}
+                <div id="divWithLabelAndInput">
+                    <label htmlFor="mainInput">Type here:</label>
+                    <input
+                        id="mainInput"
                         ref={referenceToInputElement}
                         type="text" autoComplete="off"
                         onKeyPress={(evt) => { handleKeyPress(evt); }}
