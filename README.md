@@ -5,7 +5,7 @@ Typing Speed test is a website made with simple usability and good performance i
 Just keep it somewhere where its easily accessible, quickly open it up and practice a bit.
 
 ## Usability
-- If you're not familiar with website like this, just type away and the words will be matched when the space key is pressed.
+- If you're not familiar with websites like this, just type away and the words will be matched when the space key is pressed.
 - Pressing the `Escape` key on your keyboard resets your progress.
 
 This project is still on-going, so feel free to give it a star, fork it, make pull requests, open up issues and such!
