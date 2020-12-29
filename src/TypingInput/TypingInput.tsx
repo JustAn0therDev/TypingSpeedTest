@@ -1,6 +1,6 @@
 import './TypingInput.css';
-import { SketchPicker } from 'react-color';
 import Results from '../Results/Results';
+import { SketchPicker } from 'react-color';
 import React, { useState, useEffect, useRef } from 'react';
 import ITypingInputInitialState from '../Interfaces/ITypingInputInitialState';
 import getSpecifiedNumberOfRandomWords from '../utils/getSpecifiedNumberOfRandomWords';
@@ -11,14 +11,31 @@ const typingInputInitialState: ITypingInputInitialState = {
     startDateInMilisseconds: 0
 }
 
+/*
+    TODO:
+    1 - Set localStorage from color picking event;
+    2 - Get from localStorage on render;
+    3 - Color prop on SketchPicker should return from localStorage if exists, else default colors (write default consts in another utils script); and
+    4 - Create reset button to clear local storage and re-render component.
+ */
 export default function TypingInput(): JSX.Element {
     const wordArraySize = 15;
-    const referenceToInputElement = useRef<HTMLInputElement>(null);
 
+    // References to mutable elements inside component.
+    const referenceToInputElement = useRef<HTMLInputElement>(null);
+    const referenceToColorPickerDiv = useRef<HTMLDivElement>(null);
+    const referenceToBackgroundColorPickerDiv = useRef<HTMLDivElement>(null);
+    const referenceToForegroundColorPickerDiv = useRef<HTMLDivElement>(null);
+    const referenceToBackgroundColorPicker = useRef<SketchPicker>(null);
+    const referenceToForegroundColorPicker = useRef<SketchPicker>(null);
+
+    // State management
     let [wordArray, setWordArray] = useState(new Array<string>());
     let [wordArrayIndex, setWordArrayIndex] = useState(0);
     let [wordsPerMinute, setWordsPerMinute] = useState(0);
     let [startDateInMilisseconds, setStartDateInMilisseconds] = useState(0);
+    let [foregroundColor, setForegroundColor] = useState("");
+    let [backgroundColor, setBackgroundColor] = useState("");
 
     useEffect(() => {
         setWordArray(getSpecifiedNumberOfRandomWords(wordArraySize));
@@ -82,33 +99,67 @@ export default function TypingInput(): JSX.Element {
         wordElement.style.color = color;
     }
 
-    function showHideColorPicker() {
-        // @ts-ignore
-        const divColorPicker: HTMLElement = document.querySelector("#div-color-picker");
-
-        if (divColorPicker) {
-            if (divColorPicker.style.display !== "none") {
-                divColorPicker.style.display = "none";
+    function handleColorPickerClick() {
+        hideColorPickerDivs();
+        if (referenceToColorPickerDiv.current) {
+            if (referenceToColorPickerDiv.current?.style.display === "none") {
+                referenceToColorPickerDiv.current.style.display = "block";
             } else {
-                divColorPicker.style.display = "inherit";
+                referenceToColorPickerDiv.current.style.display = "none";
             }
         }
+    }
+
+    function handleBackgroundColorPickerClick() {
+        hideColorPickerDivs();
+        if (referenceToBackgroundColorPickerDiv.current) {
+            if (referenceToBackgroundColorPickerDiv.current?.style.display === "none") {
+                referenceToBackgroundColorPickerDiv.current.style.display = "block";
+            } else {
+                referenceToBackgroundColorPickerDiv.current.style.display = "none";
+            }
+        }
+    }
+
+    function handleForegroundColorPickerClick() {
+        hideColorPickerDivs();
+        if (referenceToForegroundColorPickerDiv.current) {
+            if (referenceToForegroundColorPickerDiv.current?.style.display === "none") {
+                referenceToForegroundColorPickerDiv.current.style.display = "block";
+            } else {
+                referenceToForegroundColorPickerDiv.current.style.display = "none";
+            }
+        }
+    }
+
+    function hideColorPickerDivs() {
+        //@ts-ignore
+        document.querySelectorAll(".color-picker").forEach(el => el.style.display = "none");
     }
 
     return (
         <>
             <div id="divMainInput">
-                <button type="button" className={"change-theme"} onClick={showHideColorPicker}>Change Theme <span role="img" aria-label="rainbow">🌈</span></button>
-                <div id="div-color-picker">
-                    <SketchPicker />
+                <button type="button" className={"change-color change-color-buttons"}  onClick={handleColorPickerClick}>Change Colors <span role="img" aria-label="rainbow">🎨</span></button>
+                <div id="div-color-picker" ref={referenceToColorPickerDiv} style={{display: "none"}}>
+                    <button type="button" className={"change-background change-color-buttons"} onClick={handleBackgroundColorPickerClick}>Background <span role="img" aria-label="paintbrush">🖌️</span></button>
+                    <button type="button" className={"change-foreground change-color-buttons"} onClick={handleForegroundColorPickerClick}>Foreground <span role="img" aria-label="paintbrush">🖌️</span></button>
                 </div>
 
-                <button type="button" id="button-reset-typing-input-state" onClick={resetComponentState}>Reset (esc) <span role="img" aria-label="stopwatch">⏱️</span></button>
+                <div style={{display: 'none'}} ref={referenceToBackgroundColorPickerDiv} className={"color-picker"}>
+                    <SketchPicker ref={referenceToBackgroundColorPicker} />
+                </div>
+
+                <div style={{display: 'none'}} ref={referenceToForegroundColorPickerDiv} className={"color-picker"}>
+                    <SketchPicker ref={referenceToForegroundColorPicker} />
+                </div>
+
+                <span id="span-reset-typing-input-state" onClick={resetComponentState}></span>
                 <div id="divMainWords">
                     {wordArray.map((word, index) => (<span id={`${word}${index}`} key={index}>{word}&nbsp;</span>))}
                 </div>
                 <div id="divWithLabelAndInput">
-                    <label htmlFor="mainInput">Type here:</label>
+                    <label htmlFor="mainInput">Type here (press esc to reset):</label>
                     <input
                         id="mainInput"
                         ref={referenceToInputElement}
