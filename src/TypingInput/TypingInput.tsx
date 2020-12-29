@@ -15,8 +15,9 @@ const typingInputInitialState: ITypingInputInitialState = {
     TODO:
     1 - Set localStorage from color picking event;
     2 - Get from localStorage on render;
-    3 - Color prop on SketchPicker should return from localStorage if exists, else default colors (write default consts in another utils script); and
-    4 - Create reset button to clear local storage and re-render component.
+    3 - Color prop on SketchPicker should return from localStorage if exists, else default colors (write default consts in another utils script);
+    4 - set onClick event on background and foreground buttons to set color from localStorage if the state gets reset; and
+    5 - Create reset button to clear local storage and re-render component.
  */
 export default function TypingInput(): JSX.Element {
     const wordArraySize = 15;
