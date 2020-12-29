@@ -9,15 +9,15 @@
     border-radius: 10px;
 }
 
-#divMainInput button {
+.change-color-buttons {
     color: #000;
     background-color: #1ED760;
     font-size: 1.2em;
     width: 9em;
-    border: inherit;
+    border: none;
     padding: 15px;
     margin: 10px;
-    border-radius: inherit;
+    border-radius: 10px;
     transition: 0.5s;
 }
 
@@ -25,7 +25,7 @@
     background-color: #189143;
 }
 
-#divMainInput > button:active {
+#divMainInput button:active {
     padding: 14px;
     transition: none;
     -moz-box-shadow:    inset 0 0 5px #000000;
@@ -33,16 +33,32 @@
     box-shadow:         inset 0 0 5px #000000;
 }
 
-#divMainInput button.change-theme {
+#divMainInput button.change-color {
     background-color: #7d0db1;
     color: #FFFFFF;
     width: 10em;
 }
 
+#divMainInput button.change-background {
+    background-color: #c20e0e;
+    color: #FFFFFF;
+    width: 10em;
+}
+
+#divMainInput button.change-foreground {
+    background-color: rgb(13, 13, 187);
+    color: #FFFFFF;
+    width: 10em;
+}
+
+#divMainInput #span-reset-typing-input-state {
+    display: none;
+}
+
 #divMainWords {
     display: flex;
     flex-direction: column;
-    margin: 15px;
+    margin: 35px 15px 15px 15px;
     padding: 30px;
     width: inherit;
     border-radius: inherit;
@@ -86,5 +102,5 @@
 }
 
 #div-color-picker {
-    display: none;
+    display: flex;
 }
