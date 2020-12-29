@@ -1,4 +1,5 @@
 import './TypingInput.css';
+import { SketchPicker } from 'react-color';
 import Results from '../Results/Results';
 import React, { useState, useEffect, useRef } from 'react';
 import ITypingInputInitialState from '../Interfaces/ITypingInputInitialState';
@@ -81,10 +82,28 @@ export default function TypingInput(): JSX.Element {
         wordElement.style.color = color;
     }
 
+    function showHideColorPicker() {
+        // @ts-ignore
+        const divColorPicker: HTMLElement = document.querySelector("#div-color-picker");
+
+        if (divColorPicker) {
+            if (divColorPicker.style.display !== "none") {
+                divColorPicker.style.display = "none";
+            } else {
+                divColorPicker.style.display = "inherit";
+            }
+        }
+    }
+
     return (
         <>
             <div id="divMainInput">
-                <button type="button" onClick={resetComponentState}>Reset (Esc)</button>
+                <button type="button" className={"change-theme"} onClick={showHideColorPicker}>Change Theme <span role="img" aria-label="rainbow">🌈</span></button>
+                <div id="div-color-picker">
+                    <SketchPicker />
+                </div>
+
+                <button type="button" id="button-reset-typing-input-state" onClick={resetComponentState}>Reset (esc) <span role="img" aria-label="stopwatch">⏱️</span></button>
                 <div id="divMainWords">
                     {wordArray.map((word, index) => (<span id={`${word}${index}`} key={index}>{word}&nbsp;</span>))}
                 </div>
