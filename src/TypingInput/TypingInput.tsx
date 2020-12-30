@@ -1,6 +1,6 @@
 import './TypingInput.css';
 import Results from '../Results/Results';
-import { SketchPicker } from 'react-color';
+import { ChromePicker, ColorResult } from 'react-color';
 import React, { useState, useEffect, useRef } from 'react';
 import ITypingInputInitialState from '../Interfaces/ITypingInputInitialState';
 import getSpecifiedNumberOfRandomWords from '../utils/getSpecifiedNumberOfRandomWords';
@@ -13,36 +13,54 @@ const typingInputInitialState: ITypingInputInitialState = {
 
 /*
     TODO:
-    1 - Set localStorage from color picking event;
-    2 - Get from localStorage on render;
-    3 - Color prop on SketchPicker should return from localStorage if exists, else default colors (write default consts in another utils script);
-    4 - set onClick event on background and foreground buttons to set color from localStorage if the state gets reset; and
-    5 - Create reset button to clear local storage and re-render component.
+    1 - Create reset button to clear local storage and reload window.
  */
 export default function TypingInput(): JSX.Element {
     const wordArraySize = 15;
+    const backgroundElements: NodeListOf<HTMLDivElement> | null = document.querySelectorAll('.background');
+    const foregroundElements: NodeListOf<HTMLSpanElement> | null = document.querySelectorAll('.foreground');
 
-    // References to mutable elements inside component.
+    // Refs to mutable elements inside component.
     const referenceToInputElement = useRef<HTMLInputElement>(null);
     const referenceToColorPickerDiv = useRef<HTMLDivElement>(null);
     const referenceToBackgroundColorPickerDiv = useRef<HTMLDivElement>(null);
     const referenceToForegroundColorPickerDiv = useRef<HTMLDivElement>(null);
-    const referenceToBackgroundColorPicker = useRef<SketchPicker>(null);
-    const referenceToForegroundColorPicker = useRef<SketchPicker>(null);
+    const referenceToBackgroundColorPicker = useRef<ChromePicker>(null);
+    const referenceToForegroundColorPicker = useRef<ChromePicker>(null);
+    const referenceToChangeColorsText = useRef<HTMLSpanElement>(null);
 
     // State management
-    let [wordArray, setWordArray] = useState(new Array<string>());
     let [wordArrayIndex, setWordArrayIndex] = useState(0);
     let [wordsPerMinute, setWordsPerMinute] = useState(0);
-    let [startDateInMilisseconds, setStartDateInMilisseconds] = useState(0);
     let [foregroundColor, setForegroundColor] = useState("");
     let [backgroundColor, setBackgroundColor] = useState("");
+    let [wordArray, setWordArray] = useState(new Array<string>());
+    let [startDateInMilisseconds, setStartDateInMilisseconds] = useState(0);
+    let [colorPickerIsActive, setColorPickerIsActive] = useState(false);
 
     useEffect(() => {
         setWordArray(getSpecifiedNumberOfRandomWords(wordArraySize));
         setWordsPerMinute(0);
         referenceToInputElement.current?.focus();
+
+        if (localStorage['tstbg']) {
+            setBackgroundColor(localStorage['tstbg']);
+        }
+
+        if (localStorage['tstfg']) {
+            setForegroundColor(localStorage['tstfg']);
+        }
     }, []);
+
+    useEffect(() => {
+        if (referenceToChangeColorsText.current) {
+            if (colorPickerIsActive) {
+                referenceToChangeColorsText.current.textContent = "Close";
+            } else {
+                referenceToChangeColorsText.current.textContent = "Change Colors";
+            }
+        }
+    }, [colorPickerIsActive])
 
     function handleKeyPress(event: React.KeyboardEvent): void {
         if (event.key === ' ') {
@@ -64,12 +82,12 @@ export default function TypingInput(): JSX.Element {
         return Math.floor((wordArraySize / ((Date.now() - startDateInMilisseconds) / 1000 / 60)));
     }
 
-    function resetComponentState() {
+    function resetComponentState(): void {
         setWordArray(getSpecifiedNumberOfRandomWords(wordArraySize));
         setWordArrayIndex(typingInputInitialState.wordArrayIndex);
         setWordsPerMinute(typingInputInitialState.wordsPerMinute);
 
-        Array.from(document.getElementsByTagName('span')).forEach(span => span.style.color = '#ffffff');
+        foregroundElements?.forEach(span => span.style.color = foregroundColor ? foregroundColor : '#FFFFFF');
 
         clearRefElementValue(referenceToInputElement);
         referenceToInputElement.current?.focus();
@@ -87,7 +105,7 @@ export default function TypingInput(): JSX.Element {
         let colorToPutOnSpanElement = "";
         
         insertedWord !== currentWord 
-        ? colorToPutOnSpanElement = "#ff0000" 
+        ? colorToPutOnSpanElement = "#FF0000" 
         : colorToPutOnSpanElement = "#1ED760";
         
         if (currentSpanElement)
@@ -104,8 +122,10 @@ export default function TypingInput(): JSX.Element {
         hideColorPickerDivs();
         if (referenceToColorPickerDiv.current) {
             if (referenceToColorPickerDiv.current?.style.display === "none") {
+                setColorPickerIsActive(true);
                 referenceToColorPickerDiv.current.style.display = "block";
             } else {
+                setColorPickerIsActive(false);
                 referenceToColorPickerDiv.current.style.display = "none";
             }
         }
@@ -134,30 +154,46 @@ export default function TypingInput(): JSX.Element {
     }
 
     function hideColorPickerDivs() {
-        //@ts-ignore
-        document.querySelectorAll(".color-picker").forEach(el => el.style.display = "none");
+        const colorPickerDivArray: NodeListOf<HTMLDivElement> = document.querySelectorAll(".color-picker");
+        colorPickerDivArray.forEach((el: HTMLDivElement) => { el.style.display = "none" });
+    }
+
+    function handleBackgroundColorChange(colorHex: string) {
+        if (backgroundElements && backgroundElements.length > 0) {
+            backgroundElements.forEach((element: HTMLDivElement) => element.style.background = colorHex);
+            setBackgroundColor(colorHex);
+            localStorage.setItem('tstbg', backgroundColor);
+        }
+    }
+
+    function handleForegroundColorChange(colorHex: string) {
+        if (foregroundElements && foregroundElements.length > 0) {
+            foregroundElements.forEach((element: HTMLSpanElement) => element.style.color = colorHex);
+            setForegroundColor(colorHex);
+            localStorage.setItem('tstfg', foregroundColor);
+        }
     }
 
     return (
         <>
             <div id="divMainInput">
-                <button type="button" className={"change-color change-color-buttons"}  onClick={handleColorPickerClick}>Change Colors <span role="img" aria-label="rainbow">🎨</span></button>
+                <button type="button" className={"change-color change-color-buttons"}  onClick={handleColorPickerClick}><span ref={referenceToChangeColorsText}>Change Colors</span> <span role="img" aria-label="rainbow">🎨</span></button>
                 <div id="div-color-picker" ref={referenceToColorPickerDiv} style={{display: "none"}}>
                     <button type="button" className={"change-background change-color-buttons"} onClick={handleBackgroundColorPickerClick}>Background <span role="img" aria-label="paintbrush">🖌️</span></button>
                     <button type="button" className={"change-foreground change-color-buttons"} onClick={handleForegroundColorPickerClick}>Foreground <span role="img" aria-label="paintbrush">🖌️</span></button>
                 </div>
 
                 <div style={{display: 'none'}} ref={referenceToBackgroundColorPickerDiv} className={"color-picker"}>
-                    <SketchPicker ref={referenceToBackgroundColorPicker} />
+                    <ChromePicker disableAlpha={true} color={backgroundColor} ref={referenceToBackgroundColorPicker} onChange={(color: ColorResult) => { handleBackgroundColorChange(color.hex) }} />
                 </div>
 
                 <div style={{display: 'none'}} ref={referenceToForegroundColorPickerDiv} className={"color-picker"}>
-                    <SketchPicker ref={referenceToForegroundColorPicker} />
+                    <ChromePicker disableAlpha={true} color={foregroundColor} ref={referenceToForegroundColorPicker} onChange={(color: ColorResult) => { handleForegroundColorChange(color.hex) }} />
                 </div>
 
                 <span id="span-reset-typing-input-state" onClick={resetComponentState}></span>
                 <div id="divMainWords">
-                    {wordArray.map((word, index) => (<span id={`${word}${index}`} key={index}>{word}&nbsp;</span>))}
+                    {wordArray.map((word, index) => (<span className={"foreground"} id={`${word}${index}`} key={index}>{word}&nbsp;</span>))}
                 </div>
                 <div id="divWithLabelAndInput">
                     <label htmlFor="mainInput">Type here (press esc to reset):</label>

@@ -12,7 +12,7 @@ export default function Results(props: IResults): JSX.Element {
     return (
         <>
             <div id="divResults">
-                <h1>{wordsPerMinute} WPM</h1>
+                <h1 className={"foreground"}>{wordsPerMinute} WPM</h1>
             </div>
         </>
     );
