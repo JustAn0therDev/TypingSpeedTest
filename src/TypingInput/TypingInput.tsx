@@ -13,7 +13,8 @@ const typingInputInitialState: ITypingInputInitialState = {
 
 /*
     TODO:
-    1 - Create reset button to clear local storage and reload window.
+    1 - Fix color set from LocalStorage. It cannot have any kind of parsing
+    2 - Create reset button to clear local storage and reload window.
  */
 export default function TypingInput(): JSX.Element {
     const wordArraySize = 15;
@@ -39,21 +40,25 @@ export default function TypingInput(): JSX.Element {
     let [colorPickerIsActive, setColorPickerIsActive] = useState(false);
 
     useEffect(() => {
+        const localStorageBackground: String | null = window.localStorage.getItem('tstbg');
+        const localStorageForeground: String | null = window.localStorage.getItem('tstfg');
+        
         setWordArray(getSpecifiedNumberOfRandomWords(wordArraySize));
         setWordsPerMinute(0);
         referenceToInputElement.current?.focus();
 
-        if (localStorage['tstbg']) {
-            setBackgroundColor(localStorage['tstbg']);
+        if (localStorageBackground) {
+            setBackgroundColor(localStorageBackground.toString());
         }
 
-        if (localStorage['tstfg']) {
-            setForegroundColor(localStorage['tstfg']);
+        if (localStorageForeground) {
+            setForegroundColor(localStorageForeground.toString());
         }
     }, []);
 
     useEffect(() => {
         if (referenceToChangeColorsText.current) {
+            referenceToChangeColorsText.current.textContent = "";
             if (colorPickerIsActive) {
                 referenceToChangeColorsText.current.textContent = "Close";
             } else {
@@ -162,7 +167,7 @@ export default function TypingInput(): JSX.Element {
         if (backgroundElements && backgroundElements.length > 0) {
             backgroundElements.forEach((element: HTMLDivElement) => element.style.background = colorHex);
             setBackgroundColor(colorHex);
-            localStorage.setItem('tstbg', backgroundColor);
+            window.localStorage.setItem('tstbg', backgroundColor);
         }
     }
 
@@ -170,14 +175,25 @@ export default function TypingInput(): JSX.Element {
         if (foregroundElements && foregroundElements.length > 0) {
             foregroundElements.forEach((element: HTMLSpanElement) => element.style.color = colorHex);
             setForegroundColor(colorHex);
-            localStorage.setItem('tstfg', foregroundColor);
+            window.localStorage.setItem('tstfg', foregroundColor);
         }
+    }
+
+    function handleColorReset() {
+        window.localStorage.removeItem('tstbg');
+        window.localStorage.removeItem('tstfg');
+
+        setBackgroundColor("#000000");
+        setForegroundColor("#FFFFFF");
+        
+        window.location.reload();
     }
 
     return (
         <>
             <div id="divMainInput">
-                <button type="button" className={"change-color change-color-buttons"}  onClick={handleColorPickerClick}><span ref={referenceToChangeColorsText}>Change Colors</span> <span role="img" aria-label="rainbow">🎨</span></button>
+                <button type="button" className={"change-color-buttons"} onClick={handleColorReset}>Reset Colors</button>
+                <button type="button" className={"change-color change-color-buttons"} onClick={handleColorPickerClick}><span ref={referenceToChangeColorsText}>Change Colors</span></button>
                 <div id="div-color-picker" ref={referenceToColorPickerDiv} style={{display: "none"}}>
                     <button type="button" className={"change-background change-color-buttons"} onClick={handleBackgroundColorPickerClick}>Background <span role="img" aria-label="paintbrush">🖌️</span></button>
                     <button type="button" className={"change-foreground change-color-buttons"} onClick={handleForegroundColorPickerClick}>Foreground <span role="img" aria-label="paintbrush">🖌️</span></button>
