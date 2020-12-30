@@ -11,11 +11,6 @@ const typingInputInitialState: ITypingInputInitialState = {
     startDateInMilisseconds: 0
 }
 
-/*
-    TODO:
-    1 - Fix color set from LocalStorage. It cannot have any kind of parsing
-    2 - Create reset button to clear local storage and reload window.
- */
 export default function TypingInput(): JSX.Element {
     const wordArraySize = 15;
     const backgroundElements: NodeListOf<HTMLDivElement> | null = document.querySelectorAll('.background');
