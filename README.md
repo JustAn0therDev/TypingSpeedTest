@@ -10,7 +10,7 @@ Just keep it somewhere where its easily accessible, quickly open it up and pract
 
 ## Colors
 To change and reset colors to default as you feel like it, there are two buttons for it:
-- The Change Colors button shows two other buttons that open a [*color-picker using react-colorful*](https://github.com/omgovich/react-colorful), each one being for the background and foreground of the application. Your color of choice will be kept in `localStorage` so it will still be there when you come back (as long as you don't clean it up);
+- The Change Colors button shows two other buttons that open a [*react-colorful "color-picker"*](https://github.com/omgovich/react-colorful), each one being for the background and foreground of the application. Your color of choice will be kept in `localStorage` so it will still be there when you come back (as long as you don't clean it up);
 - The Reset Colors does exactly what it says.
 
 This project is still on-going, so feel free to give it a star, fork it, make pull requests, open up issues and such!
