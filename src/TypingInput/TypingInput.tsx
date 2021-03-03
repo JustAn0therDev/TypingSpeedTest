@@ -1,6 +1,6 @@
 import './TypingInput.css';
 import Results from '../Results/Results';
-import { ChromePicker, ColorResult } from 'react-color';
+import { HexColorPicker } from 'react-colorful';
 import React, { useState, useEffect, useRef } from 'react';
 import ITypingInputInitialState from '../Interfaces/ITypingInputInitialState';
 import getSpecifiedNumberOfRandomWords from '../utils/getSpecifiedNumberOfRandomWords';
@@ -13,26 +13,24 @@ const typingInputInitialState: ITypingInputInitialState = {
 
 export default function TypingInput(): JSX.Element {
     const wordArraySize = 15;
-    const backgroundElements: NodeListOf<HTMLDivElement> | null = document.querySelectorAll('.background');
+    const backgroundElements: NodeListOf<HTMLDivElement> | null  = document.querySelectorAll('.background');
     const foregroundElements: NodeListOf<HTMLSpanElement> | null = document.querySelectorAll('.foreground');
 
     // Refs to mutable elements inside component.
-    const referenceToInputElement = useRef<HTMLInputElement>(null);
-    const referenceToColorPickerDiv = useRef<HTMLDivElement>(null);
+    const referenceToInputElement             = useRef<HTMLInputElement>(null);
+    const referenceToColorPickerDiv           = useRef<HTMLDivElement>(null);
     const referenceToBackgroundColorPickerDiv = useRef<HTMLDivElement>(null);
     const referenceToForegroundColorPickerDiv = useRef<HTMLDivElement>(null);
-    const referenceToBackgroundColorPicker = useRef<ChromePicker>(null);
-    const referenceToForegroundColorPicker = useRef<ChromePicker>(null);
-    const referenceToChangeColorsText = useRef<HTMLSpanElement>(null);
+    const referenceToChangeColorsText         = useRef<HTMLSpanElement>(null);
 
     // State management
-    let [wordArrayIndex, setWordArrayIndex] = useState(0);
-    let [wordsPerMinute, setWordsPerMinute] = useState(0);
-    let [foregroundColor, setForegroundColor] = useState("");
-    let [backgroundColor, setBackgroundColor] = useState("");
-    let [wordArray, setWordArray] = useState(new Array<string>());
+    let [wordArrayIndex, setWordArrayIndex]                   = useState(0);
+    let [wordsPerMinute, setWordsPerMinute]                   = useState(0);
+    let [foregroundColor, setForegroundColor]                 = useState("");
+    let [backgroundColor, setBackgroundColor]                 = useState("");
+    let [wordArray, setWordArray]                             = useState(new Array<string>());
     let [startDateInMilisseconds, setStartDateInMilisseconds] = useState(0);
-    let [colorPickerIsActive, setColorPickerIsActive] = useState(false);
+    let [colorPickerIsActive, setColorPickerIsActive]         = useState(false);
 
     useEffect(() => {
         const localStorageBackground: String | null = window.localStorage.getItem('tstbg');
@@ -53,7 +51,6 @@ export default function TypingInput(): JSX.Element {
 
     useEffect(() => {
         if (referenceToChangeColorsText.current) {
-            referenceToChangeColorsText.current.textContent = "";
             if (colorPickerIsActive) {
                 referenceToChangeColorsText.current.textContent = "Close";
             } else {
@@ -175,11 +172,14 @@ export default function TypingInput(): JSX.Element {
     }
 
     function handleColorReset() {
-        window.localStorage.removeItem('tstbg');
-        window.localStorage.removeItem('tstfg');
+        const defaultBackgroundColor = '#000000', defaultForegroundColor = '#FFFFFF';
+        // this fixes the color picker having the default colors selected when
+        // the colors are reset or not defined yet.
+        localStorage.setItem('tstbg', defaultBackgroundColor)
+        localStorage.setItem('tstfg', defaultForegroundColor)
 
-        setBackgroundColor("#000000");
-        setForegroundColor("#FFFFFF");
+        setBackgroundColor(defaultBackgroundColor);
+        setForegroundColor(defaultForegroundColor);
         
         window.location.reload();
     }
@@ -195,11 +195,11 @@ export default function TypingInput(): JSX.Element {
                 </div>
 
                 <div style={{display: 'none'}} ref={referenceToBackgroundColorPickerDiv} className={"color-picker"}>
-                    <ChromePicker disableAlpha={true} color={backgroundColor} ref={referenceToBackgroundColorPicker} onChange={(color: ColorResult) => { handleBackgroundColorChange(color.hex) }} />
+                    <HexColorPicker color={backgroundColor} onChange={(color) => { handleBackgroundColorChange(color) }} />
                 </div>
 
                 <div style={{display: 'none'}} ref={referenceToForegroundColorPickerDiv} className={"color-picker"}>
-                    <ChromePicker disableAlpha={true} color={foregroundColor} ref={referenceToForegroundColorPicker} onChange={(color: ColorResult) => { handleForegroundColorChange(color.hex) }} />
+                    <HexColorPicker color={foregroundColor} onChange={(color) => { handleForegroundColorChange(color) }} />
                 </div>
 
                 <span id="span-reset-typing-input-state" onClick={resetComponentState}></span>
