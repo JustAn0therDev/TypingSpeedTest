@@ -13,8 +13,10 @@ const typingInputInitialState: ITypingInputInitialState = {
 
 export default function TypingInput(): JSX.Element {
     const wordArraySize = 15;
-    const backgroundElements: NodeListOf<HTMLDivElement> | null  = document.querySelectorAll('.background');
-    const foregroundElements: NodeListOf<HTMLSpanElement> | null = document.querySelectorAll('.foreground');
+    const backgroundElements: NodeListOf<HTMLDivElement>  | null  = document.querySelectorAll('.background');
+    const foregroundElements: NodeListOf<HTMLSpanElement> | null  = document.querySelectorAll('.foreground');
+    const defaultBackgroundColor = '#000000'; 
+    const defaultForegroundColor = '#FFFFFF';
 
     // Refs to mutable elements inside component.
     const referenceToInputElement             = useRef<HTMLInputElement>(null);
@@ -26,30 +28,24 @@ export default function TypingInput(): JSX.Element {
     // State management
     let [wordArrayIndex, setWordArrayIndex]                   = useState(0);
     let [wordsPerMinute, setWordsPerMinute]                   = useState(0);
-    let [foregroundColor, setForegroundColor]                 = useState("");
-    let [backgroundColor, setBackgroundColor]                 = useState("");
+    let [foregroundColor, setForegroundColor]                 = useState('');
+    let [backgroundColor, setBackgroundColor]                 = useState('');
     let [wordArray, setWordArray]                             = useState(new Array<string>());
     let [startDateInMilisseconds, setStartDateInMilisseconds] = useState(0);
     let [colorPickerIsActive, setColorPickerIsActive]         = useState(false);
 
     useEffect(() => {
-        const localStorageBackground: String | null = window.localStorage.getItem('tstbg');
-        const localStorageForeground: String | null = window.localStorage.getItem('tstfg');
+        const localStorageBackground = window.localStorage.getItem('tstbg');
+        const localStorageForeground = window.localStorage.getItem('tstfg');
         
         setWordArray(getSpecifiedNumberOfRandomWords(wordArraySize));
         setWordsPerMinute(0);
+        
         referenceToInputElement.current?.focus();
 
-        if (localStorageBackground) {
-            setBackgroundColor(localStorageBackground.toString());
-        }
+        setForegroundColor(localStorageForeground ? localStorageForeground : defaultForegroundColor);
+        setBackgroundColor(localStorageBackground ? localStorageBackground : defaultBackgroundColor);
 
-        if (localStorageForeground) {
-            setForegroundColor(localStorageForeground.toString());
-        }
-    }, []);
-
-    useEffect(() => {
         if (referenceToChangeColorsText.current) {
             if (colorPickerIsActive) {
                 referenceToChangeColorsText.current.textContent = "Close";
@@ -97,22 +93,20 @@ export default function TypingInput(): JSX.Element {
 
     function checkInputValue(insertedWord: string | null): void {
         const currentWord = wordArray[wordArrayIndex];
-        const currentSpanElement: HTMLElement | null = document.getElementById(`${currentWord}${wordArrayIndex}`);
+        const currentSpanElement: HTMLSpanElement | null = document.querySelector<HTMLSpanElement>(`#${currentWord}${wordArrayIndex}`);
 
-        let colorToPutOnSpanElement = "";
+        let colorToFillSpanElementWith = "";
         
-        insertedWord !== currentWord 
-        ? colorToPutOnSpanElement = "#FF0000" 
-        : colorToPutOnSpanElement = "#1ED760";
+        insertedWord !== currentWord ? colorToFillSpanElementWith = "#FF0000" : colorToFillSpanElementWith = "#1ED760";
         
-        if (currentSpanElement)
-           markWordElementAsTyped(currentSpanElement, colorToPutOnSpanElement);
+        markWordElementAsTypedIfElementFound(currentSpanElement, colorToFillSpanElementWith);
         
         setWordArrayIndex(wordArrayIndex + 1);
     }
 
-    function markWordElementAsTyped(wordElement: HTMLElement, color: string): void {
-        wordElement.style.color = color;
+    function markWordElementAsTypedIfElementFound(wordElement: HTMLElement | null, color: string): void {
+        if (wordElement)
+            wordElement.style.color = color;
     }
 
     function handleColorPickerClick() {
@@ -151,7 +145,7 @@ export default function TypingInput(): JSX.Element {
     }
 
     function hideColorPickerDivs() {
-        const colorPickerDivArray: NodeListOf<HTMLDivElement> = document.querySelectorAll(".color-picker");
+        const colorPickerDivArray: NodeListOf<HTMLDivElement> = document.querySelectorAll<HTMLDivElement>(".color-picker");
         colorPickerDivArray.forEach((el: HTMLDivElement) => { el.style.display = "none" });
     }
 
@@ -159,6 +153,7 @@ export default function TypingInput(): JSX.Element {
         if (backgroundElements && backgroundElements.length > 0) {
             backgroundElements.forEach((element: HTMLDivElement) => element.style.background = colorHex);
             setBackgroundColor(colorHex);
+
             window.localStorage.setItem('tstbg', backgroundColor);
         }
     }
@@ -167,20 +162,20 @@ export default function TypingInput(): JSX.Element {
         if (foregroundElements && foregroundElements.length > 0) {
             foregroundElements.forEach((element: HTMLSpanElement) => element.style.color = colorHex);
             setForegroundColor(colorHex);
+
             window.localStorage.setItem('tstfg', foregroundColor);
         }
     }
 
     function handleColorReset() {
-        const defaultBackgroundColor = '#000000', defaultForegroundColor = '#FFFFFF';
-        // this fixes the color picker having the default colors selected when
-        // the colors are reset or not defined yet.
-        localStorage.setItem('tstbg', defaultBackgroundColor)
-        localStorage.setItem('tstfg', defaultForegroundColor)
+        localStorage.setItem('tstbg', defaultBackgroundColor);
+        localStorage.setItem('tstfg', defaultForegroundColor);
 
         setBackgroundColor(defaultBackgroundColor);
         setForegroundColor(defaultForegroundColor);
-        
+
+        // TODO: fix me 
+        // This should be "just" reloading the page; The component state should be reloaded
         window.location.reload();
     }
 
