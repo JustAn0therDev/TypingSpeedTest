@@ -26,13 +26,13 @@ export default function TypingInput(): JSX.Element {
     const referenceToChangeColorsText         = useRef<HTMLSpanElement>(null);
 
     // State management
-    let [wordArrayIndex, setWordArrayIndex]                   = useState(0);
-    let [wordsPerMinute, setWordsPerMinute]                   = useState(0);
-    let [foregroundColor, setForegroundColor]                 = useState('');
-    let [backgroundColor, setBackgroundColor]                 = useState('');
-    let [wordArray, setWordArray]                             = useState(new Array<string>());
-    let [startDateInMilisseconds, setStartDateInMilisseconds] = useState(0);
-    let [colorPickerIsActive, setColorPickerIsActive]         = useState(false);
+    let [wordArrayIndex, setWordArrayIndex]                       = useState(0);
+    let [wordsPerMinute, setWordsPerMinute]                       = useState(0);
+    let [foregroundColor, setForegroundColor]                     = useState('');
+    let [backgroundColor, setBackgroundColor]                     = useState('');
+    let [wordArray, setWordArray]                                 = useState(new Array<string>());
+    let [startDateInMilisseconds, setStartDateInMilisseconds]     = useState(0);
+    let [colorPickerIsActive, setColorPickerIsActive]             = useState(false);
 
     useEffect(() => {
         const localStorageBackground = window.localStorage.getItem('tstbg');
@@ -48,9 +48,9 @@ export default function TypingInput(): JSX.Element {
 
         if (referenceToChangeColorsText.current) {
             if (colorPickerIsActive) {
-                referenceToChangeColorsText.current.textContent = "Close";
+                referenceToChangeColorsText.current.textContent = 'Close';
             } else {
-                referenceToChangeColorsText.current.textContent = "Change Colors";
+                referenceToChangeColorsText.current.textContent = 'Change Colors';
             }
         }
     }, [colorPickerIsActive])
@@ -94,10 +94,10 @@ export default function TypingInput(): JSX.Element {
     function checkInputValue(insertedWord: string | null): void {
         const currentWord = wordArray[wordArrayIndex];
         const currentSpanElement: HTMLSpanElement | null = document.querySelector<HTMLSpanElement>(`#${currentWord}${wordArrayIndex}`);
-
-        let colorToFillSpanElementWith = "";
         
-        insertedWord !== currentWord ? colorToFillSpanElementWith = "#FF0000" : colorToFillSpanElementWith = "#1ED760";
+        let colorToFillSpanElementWith = '';
+        
+        insertedWord !== currentWord ? colorToFillSpanElementWith = '#FF0000' : colorToFillSpanElementWith = '#1ED760';
         
         markWordElementAsTypedIfElementFound(currentSpanElement, colorToFillSpanElementWith);
         
@@ -112,12 +112,12 @@ export default function TypingInput(): JSX.Element {
     function handleColorPickerClick() {
         hideColorPickerDivs();
         if (referenceToColorPickerDiv.current) {
-            if (referenceToColorPickerDiv.current?.style.display === "none") {
+            if (referenceToColorPickerDiv.current?.style.display === 'none') {
                 setColorPickerIsActive(true);
-                referenceToColorPickerDiv.current.style.display = "block";
+                referenceToColorPickerDiv.current.style.display = 'block';
             } else {
                 setColorPickerIsActive(false);
-                referenceToColorPickerDiv.current.style.display = "none";
+                referenceToColorPickerDiv.current.style.display = 'none';
             }
         }
     }
@@ -125,10 +125,10 @@ export default function TypingInput(): JSX.Element {
     function handleBackgroundColorPickerClick() {
         hideColorPickerDivs();
         if (referenceToBackgroundColorPickerDiv.current) {
-            if (referenceToBackgroundColorPickerDiv.current?.style.display === "none") {
-                referenceToBackgroundColorPickerDiv.current.style.display = "block";
+            if (referenceToBackgroundColorPickerDiv.current?.style.display === 'none') {
+                referenceToBackgroundColorPickerDiv.current.style.display = 'block';
             } else {
-                referenceToBackgroundColorPickerDiv.current.style.display = "none";
+                referenceToBackgroundColorPickerDiv.current.style.display = 'none';
             }
         }
     }
@@ -136,17 +136,17 @@ export default function TypingInput(): JSX.Element {
     function handleForegroundColorPickerClick() {
         hideColorPickerDivs();
         if (referenceToForegroundColorPickerDiv.current) {
-            if (referenceToForegroundColorPickerDiv.current?.style.display === "none") {
-                referenceToForegroundColorPickerDiv.current.style.display = "block";
+            if (referenceToForegroundColorPickerDiv.current?.style.display === 'none') {
+                referenceToForegroundColorPickerDiv.current.style.display = 'block';
             } else {
-                referenceToForegroundColorPickerDiv.current.style.display = "none";
+                referenceToForegroundColorPickerDiv.current.style.display = 'none';
             }
         }
     }
 
     function hideColorPickerDivs() {
-        const colorPickerDivArray: NodeListOf<HTMLDivElement> = document.querySelectorAll<HTMLDivElement>(".color-picker");
-        colorPickerDivArray.forEach((el: HTMLDivElement) => { el.style.display = "none" });
+        const colorPickerDivArray: NodeListOf<HTMLDivElement> = document.querySelectorAll<HTMLDivElement>('.color-picker');
+        colorPickerDivArray.forEach((el: HTMLDivElement) => { el.style.display = 'none' });
     }
 
     function handleBackgroundColorChange(colorHex: string) {
@@ -174,39 +174,38 @@ export default function TypingInput(): JSX.Element {
         setBackgroundColor(defaultBackgroundColor);
         setForegroundColor(defaultForegroundColor);
 
-        // TODO: fix me 
-        // This should be "just" reloading the page; The component state should be reloaded
-        window.location.reload();
+        handleBackgroundColorChange(defaultBackgroundColor);
+        handleForegroundColorChange(defaultForegroundColor);
     }
 
     return (
         <>
-            <div id="divMainInput">
-                <button type="button" className={"change-color-buttons"} onClick={handleColorReset}>Reset Colors</button>
-                <button type="button" className={"change-color change-color-buttons"} onClick={handleColorPickerClick}><span ref={referenceToChangeColorsText}>Change Colors</span></button>
-                <div id="div-color-picker" ref={referenceToColorPickerDiv} style={{display: "none"}}>
-                    <button type="button" className={"change-background change-color-buttons"} onClick={handleBackgroundColorPickerClick}>Background <span role="img" aria-label="paintbrush">🖌️</span></button>
-                    <button type="button" className={"change-foreground change-color-buttons"} onClick={handleForegroundColorPickerClick}>Foreground <span role="img" aria-label="paintbrush">🖌️</span></button>
+            <div id='divMainInput'>
+                <button type='button' className={'change-color-buttons'} onClick={handleColorReset}>Reset Colors</button>
+                <button type='button' className={'change-color change-color-buttons'} onClick={handleColorPickerClick}><span ref={referenceToChangeColorsText}>Change Colors</span></button>
+                <div id='div-color-picker' ref={referenceToColorPickerDiv} style={{display: 'none'}}>
+                    <button type='button' className={'change-background change-color-buttons'} onClick={handleBackgroundColorPickerClick}>Background <span role='img' aria-label='paintbrush'>🖌️</span></button>
+                    <button type='button' className={'change-foreground change-color-buttons'} onClick={handleForegroundColorPickerClick}>Foreground <span role='img' aria-label='paintbrush'>🖌️</span></button>
                 </div>
 
-                <div style={{display: 'none'}} ref={referenceToBackgroundColorPickerDiv} className={"color-picker"}>
+                <div style={{display: 'none'}} ref={referenceToBackgroundColorPickerDiv} className={'color-picker'}>
                     <HexColorPicker color={backgroundColor} onChange={(color) => { handleBackgroundColorChange(color) }} />
                 </div>
 
-                <div style={{display: 'none'}} ref={referenceToForegroundColorPickerDiv} className={"color-picker"}>
+                <div style={{display: 'none'}} ref={referenceToForegroundColorPickerDiv} className={'color-picker'}>
                     <HexColorPicker color={foregroundColor} onChange={(color) => { handleForegroundColorChange(color) }} />
                 </div>
 
-                <span id="span-reset-typing-input-state" onClick={resetComponentState}></span>
-                <div id="divMainWords">
-                    {wordArray.map((word, index) => (<span className={"foreground"} id={`${word}${index}`} key={index}>{word}&nbsp;</span>))}
+                <span id='span-reset-typing-input-state' onClick={resetComponentState}></span>
+                <div id='divMainWords'>
+                    {wordArray.map((word, index) => (<span className={'foreground'} id={`${word}${index}`} key={index}>{word}&nbsp;</span>))}
                 </div>
-                <div id="divWithLabelAndInput">
-                    <label htmlFor="mainInput">Type here (press esc to reset):</label>
+                <div id='divWithLabelAndInput'>
+                    <label htmlFor='mainInput'>Type here (press esc to reset):</label>
                     <input
-                        id="mainInput"
+                        id='mainInput'
                         ref={referenceToInputElement}
-                        type="text" autoComplete="off"
+                        type='text' autoComplete='off'
                         onKeyPress={(evt) => { handleKeyPress(evt); }}
                     />
                 </div>
