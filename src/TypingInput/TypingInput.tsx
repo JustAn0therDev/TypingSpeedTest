@@ -11,11 +11,13 @@ const typingInputInitialState: ITypingInputInitialState = {
     startDateInMilisseconds: 0
 }
 
+// current bug:
+// 1 -> load the website for the first time with a different foreground color
+// 2 -> click the reset button 
+// current behavior  -> the foreground color does not change unless you click the reset button twice
+// expected behavior -> the foreground color should have changed in the first click.
 export default function TypingInput(): JSX.Element {
     const wordArraySize = 15;
-
-    const foregroundElements: NodeListOf<HTMLElement> | null = document.querySelectorAll<HTMLElement>('.foreground');
-    const backgroundElements: NodeListOf<HTMLDivElement> | null  = document.querySelectorAll<HTMLDivElement>('.background');
 
     const defaultBackgroundColor = '#000000'; 
     const defaultForegroundColor = '#FFFFFF';
@@ -37,12 +39,12 @@ export default function TypingInput(): JSX.Element {
     let [colorPickerIsActive, setColorPickerIsActive]             = useState(false);
 
     useEffect(() => {
-        const localStorageForeground = localStorage.getItem('tstfg');
-        const localStorageBackground = localStorage.getItem('tstbg');
-        
+        let localStorageForeground = localStorage.getItem('tstfg');
+        let localStorageBackground = localStorage.getItem('tstbg');
+
         setWordArray(getSpecifiedNumberOfRandomWords(wordArraySize));
         setWordsPerMinute(0);
-        
+
         referenceToInputElement.current?.focus();
 
         setForegroundColor(localStorageForeground ? localStorageForeground : defaultForegroundColor);
@@ -69,12 +71,13 @@ export default function TypingInput(): JSX.Element {
         return Math.floor((wordArraySize / ((Date.now() - startDateInMilisseconds) / 1000 / 60)));
     }
 
-    function resetComponentState(): void {
+    function resetComponentState(optionalForegroundColorHex?: string): void {
         setWordArray(getSpecifiedNumberOfRandomWords(wordArraySize));
         setWordArrayIndex(typingInputInitialState.wordArrayIndex);
         setWordsPerMinute(typingInputInitialState.wordsPerMinute);
 
-        foregroundElements?.forEach((element: HTMLElement) => element.style.color = foregroundColor );
+        // the foregroundColor state is NOT being changed. This is really weird.
+        document.querySelectorAll<HTMLElement>('.foreground')?.forEach((element) => element.style.color = optionalForegroundColorHex ? optionalForegroundColorHex : foregroundColor );
 
         clearRefElementValue(referenceToInputElement);
         referenceToInputElement.current?.focus();
@@ -155,26 +158,27 @@ export default function TypingInput(): JSX.Element {
     function handleBackgroundColorChange(colorHex: string) {
         setBackgroundColor(colorHex);
 
-        if (backgroundElements && backgroundElements.length > 0) {
-            backgroundElements.forEach((element: HTMLDivElement) => element.style.background = colorHex);
-            localStorage.setItem('tstbg', colorHex);
-        }
+        document.querySelectorAll<HTMLDivElement>('.background')?.forEach((element: HTMLDivElement) => element.style.background = colorHex);
+        localStorage.setItem('tstbg', colorHex);
     }
 
     function handleForegroundColorChange(colorHex: string) {
         setForegroundColor(colorHex);
 
-        if (foregroundElements && foregroundElements.length > 0) {
-            foregroundElements.forEach((element: HTMLElement) => element.style.color = colorHex);
-            localStorage.setItem('tstfg', colorHex);
-        }
+        document.querySelectorAll<HTMLElement>('.foreground')?.forEach((element: HTMLElement) => element.style.color = colorHex);
+        localStorage.setItem('tstfg', colorHex);
     }
 
     function handleColorReset() {
-        resetComponentState();
+        localStorage.removeItem('tstfg');
+        localStorage.removeItem('tstbg');
 
         handleBackgroundColorChange(defaultBackgroundColor);
         handleForegroundColorChange(defaultForegroundColor);
+
+        console.log(foregroundColor);
+        
+        resetComponentState(defaultForegroundColor);
     }
 
     return (
@@ -195,12 +199,12 @@ export default function TypingInput(): JSX.Element {
                     <HexColorPicker color={foregroundColor} onChange={(color) => { handleForegroundColorChange(color) }} />
                 </div>
 
-                <span id='span-reset-typing-input-state' onClick={resetComponentState}></span>
+                <span id='span-reset-typing-input-state' onClick={() => resetComponentState() }></span>
                 <div id='divMainWords'>
                     {wordArray.map((word, index) => (<span className={'foreground'} id={`${word}${index}`} key={index}>{word}&nbsp;</span>))}
                 </div>
                 <div id='divWithLabelAndInput'>
-                    <label htmlFor='mainInput'>Type here (press esc to reset):</label>
+                    <label htmlFor='mainInput'>Press esc to reset:</label>
                     <input
                         id='mainInput'
                         ref={referenceToInputElement}
