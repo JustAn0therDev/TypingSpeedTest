@@ -13,8 +13,10 @@ const typingInputInitialState: ITypingInputInitialState = {
 
 export default function TypingInput(): JSX.Element {
     const wordArraySize = 15;
-    const backgroundElements: NodeListOf<HTMLDivElement>  | null  = document.querySelectorAll('.background');
-    const foregroundElements: NodeListOf<HTMLSpanElement> | null  = document.querySelectorAll('.foreground');
+
+    const foregroundElements: NodeListOf<HTMLSpanElement> | null = document.querySelectorAll<HTMLSpanElement>('.foreground');
+    const backgroundElements: NodeListOf<HTMLDivElement> | null  = document.querySelectorAll<HTMLDivElement>('.background');
+
     const defaultBackgroundColor = '#000000'; 
     const defaultForegroundColor = '#FFFFFF';
 
@@ -35,8 +37,8 @@ export default function TypingInput(): JSX.Element {
     let [colorPickerIsActive, setColorPickerIsActive]             = useState(false);
 
     useEffect(() => {
-        const localStorageBackground = window.localStorage.getItem('tstbg');
-        const localStorageForeground = window.localStorage.getItem('tstfg');
+        const localStorageForeground = localStorage.getItem('tstfg');
+        const localStorageBackground = localStorage.getItem('tstbg');
         
         setWordArray(getSpecifiedNumberOfRandomWords(wordArraySize));
         setWordsPerMinute(0);
@@ -72,7 +74,7 @@ export default function TypingInput(): JSX.Element {
         setWordArrayIndex(typingInputInitialState.wordArrayIndex);
         setWordsPerMinute(typingInputInitialState.wordsPerMinute);
 
-        foregroundElements?.forEach(span => span.style.color = foregroundColor ? foregroundColor : '#FFFFFF');
+        foregroundElements?.forEach(element => element.style.color = foregroundColor );
 
         clearRefElementValue(referenceToInputElement);
         referenceToInputElement.current?.focus();
@@ -151,34 +153,28 @@ export default function TypingInput(): JSX.Element {
     }
 
     function handleBackgroundColorChange(colorHex: string) {
+        setBackgroundColor(colorHex);
+
         if (backgroundElements && backgroundElements.length > 0) {
             backgroundElements.forEach((element: HTMLDivElement) => element.style.background = colorHex);
-            setBackgroundColor(colorHex);
-
-            window.localStorage.setItem('tstbg', backgroundColor);
+            localStorage.setItem('tstbg', colorHex);
         }
     }
 
     function handleForegroundColorChange(colorHex: string) {
+        setForegroundColor(colorHex);
+
         if (foregroundElements && foregroundElements.length > 0) {
             foregroundElements.forEach((element: HTMLSpanElement) => element.style.color = colorHex);
-            setForegroundColor(colorHex);
-
-            window.localStorage.setItem('tstfg', foregroundColor);
+            localStorage.setItem('tstfg', colorHex);
         }
     }
 
     function handleColorReset() {
-        localStorage.setItem('tstbg', defaultBackgroundColor);
-        localStorage.setItem('tstfg', defaultForegroundColor);
-
-        setBackgroundColor(defaultBackgroundColor);
-        setForegroundColor(defaultForegroundColor);
+        resetComponentState();
 
         handleBackgroundColorChange(defaultBackgroundColor);
         handleForegroundColorChange(defaultForegroundColor);
-
-        resetComponentState();
     }
 
     return (
