@@ -76,7 +76,6 @@ export default function TypingInput(): JSX.Element {
         setWordArrayIndex(typingInputInitialState.wordArrayIndex);
         setWordsPerMinute(typingInputInitialState.wordsPerMinute);
 
-        // the foregroundColor state is NOT being changed. This is really weird.
         document.querySelectorAll<HTMLElement>('.foreground')?.forEach((element) => element.style.color = optionalForegroundColorHex ? optionalForegroundColorHex : foregroundColor );
 
         clearRefElementValue(referenceToInputElement);
@@ -175,8 +174,6 @@ export default function TypingInput(): JSX.Element {
 
         handleBackgroundColorChange(defaultBackgroundColor);
         handleForegroundColorChange(defaultForegroundColor);
-
-        console.log(foregroundColor);
         
         resetComponentState(defaultForegroundColor);
     }
