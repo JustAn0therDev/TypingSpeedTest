@@ -45,18 +45,6 @@ export default function TypingInput(): JSX.Element {
 
         setForegroundColor(localStorageForeground ? localStorageForeground : defaultForegroundColor);
         setBackgroundColor(localStorageBackground ? localStorageBackground : defaultBackgroundColor);
-
-        if (referenceToChangeColorsText && referenceToChangeColorsText.current) {
-            if (colorPickerIsActive) {
-                setColorPickerIsActive(false);
-
-                referenceToChangeColorsText.current.textContent = 'Close';
-            } else {
-                referenceToChangeColorsText.current.textContent = 'Change Colors';
-
-                setColorPickerIsActive(true);
-            }
-        }
     }, [])
 
     function handleKeyPress(event: React.KeyboardEvent): void {
@@ -118,9 +106,11 @@ export default function TypingInput(): JSX.Element {
 
         if (referenceToChangeColorsText && referenceToChangeColorsText.current) {
             if (colorPickerIsActive) {
-                referenceToChangeColorsText.current.textContent = 'Close';
-            } else {
+                setColorPickerIsActive(false);
                 referenceToChangeColorsText.current.textContent = 'Change Colors';
+            } else {
+                setColorPickerIsActive(true);
+                referenceToChangeColorsText.current.textContent = 'Close';
             }
         }
 
@@ -184,6 +174,9 @@ export default function TypingInput(): JSX.Element {
 
         setBackgroundColor(defaultBackgroundColor);
         setForegroundColor(defaultForegroundColor);
+
+        handleBackgroundColorChange(defaultBackgroundColor);
+        handleForegroundColorChange(defaultForegroundColor);
 
         resetComponentState();
     }

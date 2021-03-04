@@ -1,8 +1,6 @@
 #divMainInput {
-    padding: 20px;
-    margin: 20px;
     display: flex;
-    min-height: 70vh;
+    min-height: 100vh;
     flex-direction: column;
     justify-content: center;
     align-items: center;
