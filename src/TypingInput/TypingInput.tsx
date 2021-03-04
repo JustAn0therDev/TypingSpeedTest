@@ -1,4 +1,4 @@
-import './TypingInput.css';
+import './typingInput.css';
 import Results from '../Results/Results';
 import { HexColorPicker } from 'react-colorful';
 import React, { useState, useEffect, useRef } from 'react';
@@ -46,14 +46,18 @@ export default function TypingInput(): JSX.Element {
         setForegroundColor(localStorageForeground ? localStorageForeground : defaultForegroundColor);
         setBackgroundColor(localStorageBackground ? localStorageBackground : defaultBackgroundColor);
 
-        if (referenceToChangeColorsText.current) {
+        if (referenceToChangeColorsText && referenceToChangeColorsText.current) {
             if (colorPickerIsActive) {
+                setColorPickerIsActive(false);
+
                 referenceToChangeColorsText.current.textContent = 'Close';
             } else {
                 referenceToChangeColorsText.current.textContent = 'Change Colors';
+
+                setColorPickerIsActive(true);
             }
         }
-    }, [colorPickerIsActive])
+    }, [])
 
     function handleKeyPress(event: React.KeyboardEvent): void {
         if (event.key === ' ') {
@@ -111,12 +115,19 @@ export default function TypingInput(): JSX.Element {
 
     function handleColorPickerClick() {
         hideColorPickerDivs();
+
+        if (referenceToChangeColorsText && referenceToChangeColorsText.current) {
+            if (colorPickerIsActive) {
+                referenceToChangeColorsText.current.textContent = 'Close';
+            } else {
+                referenceToChangeColorsText.current.textContent = 'Change Colors';
+            }
+        }
+
         if (referenceToColorPickerDiv.current) {
-            if (referenceToColorPickerDiv.current?.style.display === 'none') {
-                setColorPickerIsActive(true);
+            if(referenceToColorPickerDiv.current?.style.display === 'none') {
                 referenceToColorPickerDiv.current.style.display = 'block';
             } else {
-                setColorPickerIsActive(false);
                 referenceToColorPickerDiv.current.style.display = 'none';
             }
         }
@@ -174,8 +185,7 @@ export default function TypingInput(): JSX.Element {
         setBackgroundColor(defaultBackgroundColor);
         setForegroundColor(defaultForegroundColor);
 
-        handleBackgroundColorChange(defaultBackgroundColor);
-        handleForegroundColorChange(defaultForegroundColor);
+        resetComponentState();
     }
 
     return (
