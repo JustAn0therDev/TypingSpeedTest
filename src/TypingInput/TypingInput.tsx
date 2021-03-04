@@ -14,7 +14,7 @@ const typingInputInitialState: ITypingInputInitialState = {
 export default function TypingInput(): JSX.Element {
     const wordArraySize = 15;
 
-    const foregroundElements: NodeListOf<HTMLSpanElement> | null = document.querySelectorAll<HTMLSpanElement>('.foreground');
+    const foregroundElements: NodeListOf<HTMLElement> | null = document.querySelectorAll<HTMLElement>('.foreground');
     const backgroundElements: NodeListOf<HTMLDivElement> | null  = document.querySelectorAll<HTMLDivElement>('.background');
 
     const defaultBackgroundColor = '#000000'; 
@@ -74,7 +74,7 @@ export default function TypingInput(): JSX.Element {
         setWordArrayIndex(typingInputInitialState.wordArrayIndex);
         setWordsPerMinute(typingInputInitialState.wordsPerMinute);
 
-        foregroundElements?.forEach(element => element.style.color = foregroundColor );
+        foregroundElements?.forEach((element: HTMLElement) => element.style.color = foregroundColor );
 
         clearRefElementValue(referenceToInputElement);
         referenceToInputElement.current?.focus();
@@ -165,7 +165,7 @@ export default function TypingInput(): JSX.Element {
         setForegroundColor(colorHex);
 
         if (foregroundElements && foregroundElements.length > 0) {
-            foregroundElements.forEach((element: HTMLSpanElement) => element.style.color = colorHex);
+            foregroundElements.forEach((element: HTMLElement) => element.style.color = colorHex);
             localStorage.setItem('tstfg', colorHex);
         }
     }
