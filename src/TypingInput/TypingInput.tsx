@@ -23,13 +23,13 @@ export default function TypingInput(): JSX.Element {
     const defaultForegroundColor = '#FFFFFF';
 
     // Refs to mutable elements inside component.
+    // That way we don't need a lot of other smaller components
     const referenceToInputElement             = useRef<HTMLInputElement>(null);
     const referenceToColorPickerDiv           = useRef<HTMLDivElement>(null);
     const referenceToBackgroundColorPickerDiv = useRef<HTMLDivElement>(null);
     const referenceToForegroundColorPickerDiv = useRef<HTMLDivElement>(null);
     const referenceToChangeColorsText         = useRef<HTMLSpanElement>(null);
 
-    // State management
     let [wordArrayIndex, setWordArrayIndex]                       = useState(0);
     let [wordsPerMinute, setWordsPerMinute]                       = useState(0);
     let [foregroundColor, setForegroundColor]                     = useState('');
@@ -169,9 +169,6 @@ export default function TypingInput(): JSX.Element {
     }
 
     function handleColorReset() {
-        localStorage.removeItem('tstfg');
-        localStorage.removeItem('tstbg');
-
         handleBackgroundColorChange(defaultBackgroundColor);
         handleForegroundColorChange(defaultForegroundColor);
         
