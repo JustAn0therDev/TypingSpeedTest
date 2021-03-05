@@ -18,7 +18,7 @@ export default function TypingInput(): JSX.Element {
     const defaultForegroundColor = '#FFFFFF';
 
     // Refs to mutable elements inside component.
-    // That way we don't need a lot of other smaller components
+    // That way we don't need a lot of other smaller components with their own logic to control the visibility of the color-pickers
     const referenceToInputElement             = useRef<HTMLInputElement>(null);
     const referenceToColorPickerDiv           = useRef<HTMLDivElement>(null);
     const referenceToBackgroundColorPickerDiv = useRef<HTMLDivElement>(null);
@@ -27,23 +27,17 @@ export default function TypingInput(): JSX.Element {
 
     let [wordArrayIndex, setWordArrayIndex]                       = useState(0);
     let [wordsPerMinute, setWordsPerMinute]                       = useState(0);
-    let [foregroundColor, setForegroundColor]                     = useState('');
-    let [backgroundColor, setBackgroundColor]                     = useState('');
+    let [foregroundColor, setForegroundColor]                     = useState(() => localStorage.getItem('tstfg') || defaultForegroundColor);
+    let [backgroundColor, setBackgroundColor]                     = useState(() => localStorage.getItem('tstbg') || defaultBackgroundColor);
     let [wordArray, setWordArray]                                 = useState(new Array<string>());
     let [startDateInMilisseconds, setStartDateInMilisseconds]     = useState(0);
     let [colorPickerIsActive, setColorPickerIsActive]             = useState(false);
 
     useEffect(() => {
-        let localStorageForeground = localStorage.getItem('tstfg');
-        let localStorageBackground = localStorage.getItem('tstbg');
-
         setWordArray(getSpecifiedNumberOfRandomWords(wordArraySize));
         setWordsPerMinute(0);
 
         referenceToInputElement.current?.focus();
-
-        setForegroundColor(localStorageForeground ? localStorageForeground : defaultForegroundColor);
-        setBackgroundColor(localStorageBackground ? localStorageBackground : defaultBackgroundColor);
     }, [])
 
     function handleKeyPress(event: React.KeyboardEvent): void {
@@ -66,12 +60,14 @@ export default function TypingInput(): JSX.Element {
         return Math.floor((wordArraySize / ((Date.now() - startDateInMilisseconds) / 1000 / 60)));
     }
 
-    function resetComponentState(optionalForegroundColorHex?: string): void {
+    function resetComponentState(): void {
         setWordArray(getSpecifiedNumberOfRandomWords(wordArraySize));
         setWordArrayIndex(typingInputInitialState.wordArrayIndex);
         setWordsPerMinute(typingInputInitialState.wordsPerMinute);
 
-        document.querySelectorAll<HTMLElement>('.foreground')?.forEach((element) => element.style.color = optionalForegroundColorHex ? optionalForegroundColorHex : foregroundColor );
+        let currentForegroundColor = localStorage.getItem('tstfg') || defaultForegroundColor;
+
+        document.querySelectorAll<HTMLElement>('.foreground')?.forEach((element) => { element.style.color = currentForegroundColor; } );
 
         clearRefElementValue(referenceToInputElement);
         referenceToInputElement.current?.focus();
@@ -167,7 +163,7 @@ export default function TypingInput(): JSX.Element {
         handleBackgroundColorChange(defaultBackgroundColor);
         handleForegroundColorChange(defaultForegroundColor);
         
-        resetComponentState(defaultForegroundColor);
+        resetComponentState();
     }
 
     return (
