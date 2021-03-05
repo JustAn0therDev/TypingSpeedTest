@@ -5,8 +5,9 @@ Typing Speed test is a website made with simple usability and performance in min
 Just keep it somewhere where its easily accessible, quickly open it up and practice a bit.
 
 ## Usability
-- If you're not familiar with websites like this, just type away and the words will be matched when the space key is pressed.
-- Pressing the `Escape` key on your keyboard resets your progress.
+- If you're not familiar with websites like this, just type away and the words will be matched when the space key is pressed;
+- When you get to the end of the word list, your score based on the number of words typed per minute will be shown at the bottom;
+- Pressing the `Escape` key on your keyboard at any time resets your current progress.
 
 ## Colors
 To change and reset colors to default as you feel like it, there are two buttons for it:
