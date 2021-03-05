@@ -11,11 +11,6 @@ const typingInputInitialState: ITypingInputInitialState = {
     startDateInMilisseconds: 0
 }
 
-// current bug:
-// 1 -> load the website for the first time with a different foreground color
-// 2 -> click the reset button 
-// current behavior  -> the foreground color does not change unless you click the reset button twice
-// expected behavior -> the foreground color should have changed in the first click.
 export default function TypingInput(): JSX.Element {
     const wordArraySize = 15;
 
