@@ -92,8 +92,9 @@ export default function TypingInput(): JSX.Element {
     }
 
     function markWordElementAsTypedIfElementFound(wordElement: HTMLElement | null, color: string): void {
-        if (wordElement)
+        if (wordElement) {
             wordElement.style.color = color;
+        }
     }
 
     function handleColorPickerClick() {
