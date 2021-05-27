@@ -1,5 +1,8 @@
 ### Typing Speed Test
 
+![example workflow](https://github.com/JustAn0therDev/TypingSpeedTest/actions/workflows/master.yml/badge.svg)
+
+
 Typing Speed test is a website made with simple usability and performance in mind using React and TypeScript, where you can [**_quickly practice_** your typing speed](https://justan0therdev.github.io/TypingSpeedTest/).
 
 Just keep it somewhere where its easily accessible, quickly open it up and practice a bit.

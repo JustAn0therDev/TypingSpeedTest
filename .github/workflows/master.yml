@@ -1,4 +1,4 @@
-name: Build and Deploy
+name: Github Pages Pipeline
 on: [push]
 jobs:
   build-and-deploy:
