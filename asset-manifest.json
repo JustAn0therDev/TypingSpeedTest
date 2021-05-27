@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/TypingSpeedTest/static/css/main.6bddfa0a.chunk.css",
-    "main.js": "/TypingSpeedTest/static/js/main.3002bbcc.chunk.js",
-    "main.js.map": "/TypingSpeedTest/static/js/main.3002bbcc.chunk.js.map",
+    "main.js": "/TypingSpeedTest/static/js/main.8e580810.chunk.js",
+    "main.js.map": "/TypingSpeedTest/static/js/main.8e580810.chunk.js.map",
     "runtime-main.js": "/TypingSpeedTest/static/js/runtime-main.2021923e.js",
     "runtime-main.js.map": "/TypingSpeedTest/static/js/runtime-main.2021923e.js.map",
     "static/js/2.f57c4e31.chunk.js": "/TypingSpeedTest/static/js/2.f57c4e31.chunk.js",
@@ -15,6 +15,6 @@
     "static/js/runtime-main.2021923e.js",
     "static/js/2.f57c4e31.chunk.js",
     "static/css/main.6bddfa0a.chunk.css",
-    "static/js/main.3002bbcc.chunk.js"
+    "static/js/main.8e580810.chunk.js"
   ]
 }
